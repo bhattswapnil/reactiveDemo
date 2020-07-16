@@ -8,6 +8,6 @@ class WelcomeController {
 
     @RequestMapping
     fun Welcome(): String {
-        return "Hello Swap!"
+        return "Hello"
     }
 }
