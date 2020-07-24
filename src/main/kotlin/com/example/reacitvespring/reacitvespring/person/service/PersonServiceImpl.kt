@@ -12,7 +12,7 @@ class PersonServiceImpl(
 ):PersonService{
 
     override fun findAll(): Flux<PersonDTO> {
-        return personRepository.findAll()
+        return personRepository.findAll().limitRate(10)        //limit rate to achieve back pressure
     }
 
     override fun findById(id: String): Mono<PersonDTO> {
@@ -23,9 +23,5 @@ class PersonServiceImpl(
        return personRepository.save(personDTO)
     }
 
-    override fun deletePerson(id: String): Mono<PersonDTO> {
-        return personRepository.findById(id)
-                .flatMap { person ->personRepository.deleteById(id).thenReturn(person)}
-    }
 
 }

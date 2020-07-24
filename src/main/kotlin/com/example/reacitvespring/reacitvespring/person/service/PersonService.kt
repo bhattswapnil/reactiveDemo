@@ -12,5 +12,4 @@ interface PersonService {
 
     fun createPerson(personDTO: PersonDTO): Mono<PersonDTO>
 
-    fun deletePerson(id: String): Mono<PersonDTO>
 }
