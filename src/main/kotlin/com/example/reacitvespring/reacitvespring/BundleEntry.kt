@@ -1,7 +1,5 @@
-package com.example.demo
+package com.example.reacitvespring.reacitvespring
 
 class BundleEntry(
-       // id: String? = null,
-        //var fullUrl: String? = null,
         var resource: Resource? = null
 )

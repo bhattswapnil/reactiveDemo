@@ -1,8 +1,7 @@
-package com.example.demo.medication.model
+package com.example.reacitvespring.reacitvespring
 
-import com.example.demo.Dosage
-import com.example.demo.Reference
-import com.example.demo.person.model.PersonDTO
+import com.example.reacitvespring.reacitvespring.person.model.PersonDTO
+
 
 class DTDMedicationStatement(
         val id:String?= null,

@@ -1,7 +1,7 @@
-package com.example.demo
+package com.example.reacitvespring.reacitvespring
 
 import org.springframework.stereotype.Component
-import org.springframework.stereotype.Service
+
 
 @Component
 class HumanName(

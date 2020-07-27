@@ -1,12 +1,12 @@
-package com.example.demo.medication.repository
+package com.example.reacitvespring.reacitvespring.medication.repository
 
-import com.example.demo.medication.model.DTDMedicationStatement
-import com.example.demo.person.model.PersonDTO
-import org.springframework.data.mongodb.repository.MongoRepository
+import com.example.reacitvespring.reacitvespring.DTDMedicationStatement
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository
+import reactor.core.publisher.Mono
 
-interface MedicationRepository: MongoRepository<DTDMedicationStatement, String> {
+interface MedicationRepository: ReactiveMongoRepository<DTDMedicationStatement, String> {
 
-    fun findOneById(id: String): DTDMedicationStatement
+    fun findOneById(id: String): Mono<DTDMedicationStatement>
 
     fun findBySubjectIdentifierValue(personId: String): List<DTDMedicationStatement>?
 

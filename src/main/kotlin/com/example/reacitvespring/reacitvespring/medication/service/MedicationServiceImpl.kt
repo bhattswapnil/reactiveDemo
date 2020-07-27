@@ -1,23 +1,26 @@
-package com.example.demo.medication.service
+package com.example.reacitvespring.reacitvespring.medication.service
 
-import com.example.demo.Reference
-import com.example.demo.medication.model.DTDMedicationStatement
-import com.example.demo.medication.repository.MedicationRepository
-import com.example.demo.person.model.PersonDTO
+import com.example.reacitvespring.reacitvespring.DTDMedicationStatement
+import com.example.reacitvespring.reacitvespring.Reference
+import com.example.reacitvespring.reacitvespring.medication.repository.MedicationRepository
+import com.example.reacitvespring.reacitvespring.medication.service.MedicationService
+import com.example.reacitvespring.reacitvespring.person.model.PersonDTO
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
 @Service
 class MedicationServiceImpl(
         private val medicationRepository: MedicationRepository,
         private var referencePerson: Reference<PersonDTO>
-):MedicationService {
+): MedicationService {
 
-    override fun getResources(): List<DTDMedicationStatement> {
-        return medicationRepository.findAll()
+    override fun readResource(id: String): Mono<DTDMedicationStatement> {
+        return medicationRepository.findOneById(id)
     }
 
-    override fun createResource(Medication: DTDMedicationStatement): DTDMedicationStatement {
+    override fun createResource(Medication: DTDMedicationStatement): Mono<DTDMedicationStatement> {
         val id: String = ObjectId().toString();
         toReference(Medication);
         return medicationRepository.save(DTDMedicationStatement(
@@ -28,24 +31,26 @@ class MedicationServiceImpl(
         ))
     }
 
-    override fun updateResource(request: DTDMedicationStatement, id: String): DTDMedicationStatement {
-        val medication = medicationRepository.findOneById(id)
-        toReference(request);
-        return medicationRepository.save(DTDMedicationStatement(
-                id = id,
-                status = request.status,
-                subject = referencePerson,
-                dosage = request.dosage
-        ))
+    override fun findAll(): Flux<DTDMedicationStatement> {
+      return medicationRepository.findAll()
     }
+
+    /* override fun updateResource(request: DTDMedicationStatement, id: String): DTDMedicationStatement {
+         val medication = medicationRepository.findOneById(id)
+         toReference(request);
+         return medicationRepository.save(DTDMedicationStatement(
+                 id = id,
+                 status = request.status,
+                 subject = referencePerson,
+                 dosage = request.dosage
+         ))
+     }*/
 
 
     fun toReference(Medication: DTDMedicationStatement) {
-        val personIdentifier = Medication.subject?.identifier;
         val personId = Medication.subject?.identifier?.value;
-        val type = Medication.subject?.type;
-        referencePerson.identifier = personIdentifier;
-        referencePerson.type = type;
+        referencePerson.identifier = Medication.subject?.identifier;
+        referencePerson.type =Medication.subject?.type;
         referencePerson.reference = "/person/${personId}";
     }
 }

@@ -1,12 +1,18 @@
-package com.example.demo.medication.service
+package com.example.reacitvespring.reacitvespring.medication.service
 
-import com.example.demo.medication.model.DTDMedicationStatement
+import com.example.reacitvespring.reacitvespring.DTDMedicationStatement
+import com.example.reacitvespring.reacitvespring.organization.model.DTDOrganization
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
+
 
 interface MedicationService {
 
-    fun getResources(): List<DTDMedicationStatement>
+    fun readResource(id: String): Mono<DTDMedicationStatement>
 
-    fun createResource(medication: DTDMedicationStatement): DTDMedicationStatement
+    fun createResource(medication: DTDMedicationStatement): Mono<DTDMedicationStatement>
 
-    fun updateResource(medication: DTDMedicationStatement ,id:String): DTDMedicationStatement
+    //fun updateResource(medication: DTDMedicationStatement ,id:String): DTDMedicationStatement
+
+    fun findAll(): Flux<DTDMedicationStatement>
 }

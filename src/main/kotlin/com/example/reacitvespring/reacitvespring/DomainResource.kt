@@ -1,7 +1,6 @@
-package com.example.demo
+package com.example.reacitvespring.reacitvespring
+
+import com.example.reacitvespring.reacitvespring.Meta
 
 abstract class DomainResource(
-        meta: Meta? = null,
-        implicitRules: String? = null,
-        language: String? = null
-) : Resource(meta, implicitRules, language)
+) : Resource()

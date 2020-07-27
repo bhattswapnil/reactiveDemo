@@ -1,4 +1,4 @@
-package com.example.demo
+package com.example.reacitvespring.reacitvespring
 
 import org.springframework.stereotype.Component
 

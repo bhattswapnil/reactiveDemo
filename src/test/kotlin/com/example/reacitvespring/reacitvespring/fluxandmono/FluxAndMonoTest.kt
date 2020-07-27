@@ -12,9 +12,7 @@ class FluxAndMonoTest {
 
     @Test
     fun flux(){
-       // val elements: List<String> = ArrayList()
         val stringFlux : Flux<String> = Flux.just("daytoday" , "daytodayHealth" ,"daytodayReactive").
-                //concatWith(Flux.error(RuntimeException("Error  occured"))).
                 concatWith(Flux.just("After Error"))
 
                 stringFlux.log().subscribe(

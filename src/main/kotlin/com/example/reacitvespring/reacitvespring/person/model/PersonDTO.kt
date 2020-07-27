@@ -1,21 +1,21 @@
-package com.example.reacitvespring.reacitvespring.model
+package com.example.reacitvespring.reacitvespring.person.model
 
-import com.example.demo.Address
-import com.example.demo.DomainResource
-import com.example.demo.HumanName
-import com.example.demo.Reference
+import com.example.reacitvespring.reacitvespring.Address
+import com.example.reacitvespring.reacitvespring.DomainResource
+import com.example.reacitvespring.reacitvespring.HumanName
+import com.example.reacitvespring.reacitvespring.Reference
+import com.example.reacitvespring.reacitvespring.organization.model.DTDOrganization
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.jetbrains.annotations.NotNull
 import java.time.LocalDate
+
 data class PersonDTO(
-        val id: String? = null,
-        @NotNull("Name required")
-    val name: MutableSet<HumanName>,
-        val gender: String?= null,
-        @NotNull("Birthdate Required")
-    val birthDate: LocalDate,
-        @NotNull("address required")
-    val address: MutableSet<Address>,
-        val managingOrganization: Reference<DTDOrganization>? = null
+        @JsonIgnore var id: String? = null,
+        val name: MutableSet<HumanName>?= null,
+        @JsonIgnore var gender: String?= null,
+        @JsonIgnore var birthDate: LocalDate? = null,
+        @JsonIgnore val address: MutableSet<Address>?= null,
+        @JsonIgnore val managingOrganization: Reference<DTDOrganization>? = null
 ): DomainResource(){
 
 }

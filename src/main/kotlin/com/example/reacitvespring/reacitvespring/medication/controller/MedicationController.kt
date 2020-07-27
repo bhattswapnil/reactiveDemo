@@ -1,35 +1,36 @@
-package com.example.demo.medication.controller
+package com.example.reacitvespring.reacitvespring.medication.controller
 
-import com.example.demo.medication.model.DTDMedicationStatement
-import com.example.demo.medication.service.MedicationService
-import com.example.demo.organization.model.DTDOrganization
-import com.example.demo.person.model.PersonDTO
-import com.example.demo.person.service.PersonService
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
+import com.example.reacitvespring.reacitvespring.DTDMedicationStatement
+import com.example.reacitvespring.reacitvespring.medication.service.MedicationService
+import com.example.reacitvespring.reacitvespring.organization.model.DTDOrganization
 import org.springframework.web.bind.annotation.*
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
 @RestController
 @RequestMapping("/medication")
 class MedicationController(
         private val medicationService: MedicationService
 ){
+
     @GetMapping
-    fun getAllMedications(): ResponseEntity<List<DTDMedicationStatement>> {
-        val medication = medicationService.getResources()
-        return ResponseEntity.ok(medication)
+    fun getAllMedication(): Flux<DTDMedicationStatement> {
+        return medicationService.findAll().log()
+    }
+    @GetMapping("/{id}")
+    fun getMedicationById(@PathVariable("id")id:String):Mono<DTDMedicationStatement> {
+        return medicationService.readResource(id)
     }
 
     @PutMapping("/{id}")
-    fun updatePerson(@RequestBody request: DTDMedicationStatement, @PathVariable("id")id: String) : ResponseEntity<DTDMedicationStatement> {
-        val medication = medicationService.updateResource(request,id)
-        return ResponseEntity(medication, HttpStatus.OK)
+    fun updatePerson(@RequestBody dtdMedicationStatement: DTDMedicationStatement, @PathVariable id: String): Mono<DTDMedicationStatement>{
+        return medicationService.readResource(id)
+                .flatMap { medicationService.createResource(dtdMedicationStatement)}.log()
     }
 
     @PostMapping
-    fun createMedication(@RequestBody request: DTDMedicationStatement): ResponseEntity<DTDMedicationStatement> {
-        val medication = medicationService.createResource(request)
-        return ResponseEntity(medication, HttpStatus.CREATED)
+    fun createMedication(@RequestBody request: DTDMedicationStatement): Mono<DTDMedicationStatement> {
+        return medicationService.createResource(request)
     }
 
 }

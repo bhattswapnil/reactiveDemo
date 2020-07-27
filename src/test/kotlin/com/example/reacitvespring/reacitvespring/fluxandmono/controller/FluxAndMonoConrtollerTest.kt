@@ -1,7 +1,6 @@
 package com.example.reacitvespring.reacitvespring.fluxandmono.controller
 
 
-import jdk.nashorn.internal.ir.annotations.Ignore
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -11,7 +10,6 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBodyList
 import reactor.core.publisher.Flux
 
-@Ignore
 @WebFluxTest
 class FluxAndMonoConrtollerTest(@Autowired
                                 val webTestClient: WebTestClient) {

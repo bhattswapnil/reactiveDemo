@@ -1,30 +1,28 @@
-package com.example.reacitvespring.reacitvespring.controller
+package com.example.reacitvespring.reacitvespring.person.controller
 
-import com.example.reacitvespring.reacitvespring.model.PersonDTO
-import com.example.reacitvespring.reacitvespring.service.PersonService
-import org.reactivestreams.Publisher
-import org.springframework.http.HttpStatus
-import org.springframework.http.MediaType
+import com.example.reacitvespring.reacitvespring.Response
+import com.example.reacitvespring.reacitvespring.person.model.PersonDTO
+import com.example.reacitvespring.reacitvespring.person.service.PersonService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import java.util.concurrent.Flow
+import java.time.Duration
 
 @RestController
-@RequestMapping("/person1")
+@RequestMapping(value= ["/person"],produces= ["application/stream+json"])
 class PersonController(
         val personService: PersonService
 ) {
 
     @GetMapping
     fun getAllPersons(): Flux<PersonDTO> {
-    return personService.findAll().log()
+    return personService.findAll().log().delayElements(Duration.ofSeconds(1))
     }
 
     @GetMapping("/{id}")
-    fun getPersonById(@PathVariable("id")id:String):Mono<ResponseEntity<PersonDTO>> {
-        return personService.findById(id).map { person -> ResponseEntity<PersonDTO>(person,HttpStatus.OK) }.log()
+     fun getPersonById(@PathVariable("id")id:String):Mono<PersonDTO> {
+        return personService.readResource(id)
     }
 
     @PostMapping
@@ -33,8 +31,8 @@ class PersonController(
     }
 
     @PutMapping("/{id}")
-    fun updatePerson(@RequestBody personDTO: PersonDTO , @PathVariable id: String): Mono<PersonDTO>{
-        return personService.findById(id)
+    fun updatePerson(@RequestBody personDTO: PersonDTO, @PathVariable id: String): Mono<PersonDTO>{
+        return personService.readResource(id)
                 .flatMap { personService.createPerson(personDTO)}.log()
     }
 
